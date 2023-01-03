@@ -18,10 +18,10 @@ Solusions
         Question 1 Solusion
 '''
 class Q1:
-    def run(self, _list): 
-        diff_type_amount = 2
+    def diff_type(self, _list): 
+        diff_type_min = 2
         
-        return functools.reduce(lambda amount, x: amount + (1 if len(x) >= diff_type_amount else 0), list(map(lambda column: set(map(lambda element: type(element), column)) ,_list)), 0)
+        return functools.reduce(lambda amount, x: amount + (1 if len(x) >= diff_type_min else 0), list(map(lambda column: set(map(lambda element: type(element), column)) ,_list)), 0)
 
         '''
         for column in _list
@@ -30,6 +30,12 @@ class Q1:
                 amount + 1
 
         '''
+
+    def run(self):
+        print(self.diff_type([[1,5,3], ['a','v',3], ["sss", 'b'],[], [[3,4,5],['a']], [(4,5,6),[4,5,6]]]))      # 2
+        print(self.diff_type([[1,5,3], ['a','v','3'], ["sss", 'b'],[], [[3,4,5],['a']], [(4,5,6),[4,5,6]]]))    # 1
+        print(self.diff_type([[1,5,3], ['a','v','3'], ["sss", 'b'],[7,8], [[3,4,5],['a']], [{4,5,6},{4,5,6}]])) # 0
+        print(self.diff_type([[1,5,'3'], ['a','v',3], ["sss", 'b'],[], [[3,4,5],['a']], [(4,5,6),[4,5,6]]]))    # 3
 '''
         Question 2 Solusion
 '''
@@ -76,6 +82,11 @@ class Q4:
                     lst[j], lst[j+1] = lst[j+1], lst[j]
         return lst
 
+    def run(self):
+        print(self.sort_list([9,5,4,1,3]))        # [1, 3, 4, 5, 9]
+        print(self.sort_list([7,80,51,20,5]))     # [5, 7, 20, 51, 80]
+        print(self.sort_list([33,99,457,100,10])) # [10, 33, 99, 100, 457]
+
 '''
         Question 5 Solusion
 '''
@@ -96,6 +107,20 @@ class Statistics:
         self.func(*args, **kwds)
 
         print(f"Decorator Counter: {Statistics.decorator_counter}\nFunction Counter: {Statistics.function_counter}\nVariables Counter: {Statistics.variables_counter}")
+
+class Q5:
+    @Statistics
+    def foo():
+        print("\nFunction Test 1 Question 5")
+
+    @Statistics
+    def bar(a, b, c, x = 0, y = 0, z = 0):
+        print("\nFunction Test 2 Question 5")
+
+    def run(self):
+        self.foo()
+        self.bar(1, 2, 3, x = 2, y = 3, z = 5)
+        self.bar(1, 2, 3, x = 2)
 
 '''
         Question 6 Solusion
@@ -134,76 +159,52 @@ class Q6:
             # Print the sum of the numbers and the original number
             print(f"Sum: {num1 + num2}, Original number: {num1 ** (1/2)}")
 
+    def run(self):
+        a = self.a()
+        c = self.c()
+        b3 = self.b3(c)
+        b2 = self.b2(c)
+
+        # forward into the first yield
+        a.__next__()
+        c.__next__()
+        b3.__next__()
+        b2.__next__()
+    
+        # Perform three rounds of the coroutines
+        for _ in range(3):
+            num = a.__next__()
+            b2.send(num)
+            b3.send(num)
+
 if __name__ == "__main__":
-    '''
-        Question 1
-    '''
+    ## Question 1
     print("Question 1:")
     q1 = Q1()
-    print(q1.run([[1,5,3], ['a','v',3], ["sss", 'b'],[], [[3,4,5],['a']], [(4,5,6),[4,5,6]]]))      # 2
-    print(q1.run([[1,5,3], ['a','v','3'], ["sss", 'b'],[], [[3,4,5],['a']], [(4,5,6),[4,5,6]]]))    # 1
-    print(q1.run([[1,5,3], ['a','v','3'], ["sss", 'b'],[7,8], [[3,4,5],['a']], [{4,5,6},{4,5,6}]])) # 0
-    print(q1.run([[1,5,'3'], ['a','v',3], ["sss", 'b'],[], [[3,4,5],['a']], [(4,5,6),[4,5,6]]]))    # 3
+    q1.run()
 
-    '''
-        Question 2
-    '''
+    ## Question 2
     print("\nQuestion 2:")
     q2 = Q2()
     q2.run()
 
-    '''
-        Question 3
-    '''
+    ## Question 3
     print("\nQuestion 3:")
     print(a(5)(b(6)()))     # 3
     print(a(6)(b(5)(6)))    # 5
 
-    '''
-        Question 4
-    '''
+    ## Question 4
     print("\nQuestion 4:")
     q4 = Q4()
-    print(q4.sort_list([9,5,4,1,3]))        # [1, 3, 4, 5, 9]
-    print(q4.sort_list([7,80,51,20,5]))     # [5, 7, 20, 51, 80]
-    print(q4.sort_list([33,99,457,100,10])) # [10, 33, 99, 100, 457]
+    q4.run()
 
-    '''
-        Question 5
-    '''
+    ## Question 5
     print("\nQuestion 5:")
+    q5 = Q5()
+    q5.run()
+    
 
-    @Statistics
-    def testQ5_1():
-        print("Function Test 1 Question 5")
-
-    @Statistics
-    def testQ5_2(a, b, c, x = 0, y = 0, z = 0):
-        print("Function Test 2 Question 5")
-
-    testQ5_1()
-    testQ5_2(1, 2, 3, x = 2, y = 3, z = 5)
-    testQ5_2(1, 2, 3, x = 2)
-
-    '''
-        Question 6
-    '''
+    ## Question 6
     print("\nQuestion 6:")
     q6 = Q6()
-
-    a = q6.a()
-    c = q6.c()
-    b3 = q6.b3(c)
-    b2 = q6.b2(c)
-
-    # forward into the first yield
-    a.__next__()
-    c.__next__()
-    b3.__next__()
-    b2.__next__()
- 
-    # Perform three rounds of the coroutines
-    for _ in range(3):
-        num = a.__next__()
-        b2.send(num)
-        b3.send(num)
+    q6.run()
