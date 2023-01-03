@@ -3,34 +3,12 @@
 ##
 # Created at 02/01/2023
 # Authors:  Gal Ashkenazi   (315566752)
+#           Roy Vaygue      (318860848)
 ##
 
 ## import moduls
 import functools
 import random
-
-'''
-        Question 3 Solusion
-'''
-
-# class a():
-#                                     ## complete required
-#     def __init__(self,y):
-#         self.y = y                           ## complete required
-#     def foo(self, z):          ## complete required
-#         if z > self.y:
-#             return z - self.y
-#         else:
-#             return self.y - z
-# class b(a):                     ## complete required
-#     def __init__(self,z):   ## complete required
-#         if z > self.y:
-#             return z - self.y
-#         else:
-#             return self.y - z
-
-# print(a(5)(b(6)()))     # 3
-# print(a(6)(b(5)(6)))    # 5
 
 '''
 Solusions
@@ -44,6 +22,14 @@ class Q1:
         diff_type_amount = 2
         
         return functools.reduce(lambda amount, x: amount + (1 if len(x) >= diff_type_amount else 0), list(map(lambda column: set(map(lambda element: type(element), column)) ,_list)), 0)
+
+        '''
+        for column in _list
+            x add {element for element in column}
+            if sizeof x >= 2
+                amount + 1
+
+        '''
 '''
         Question 2 Solusion
 '''
@@ -58,6 +44,27 @@ class Q2:
             for i in range(1,len(vlst) + 1):
                 print(lamdic[v](i), end=' ')
             print()
+
+'''
+        Question 3 Solusion
+'''
+
+class a():
+    z = 8                          ## complete required
+    def __init__(self, y):
+        self.y = y                  ## complete required
+    def __call__(self, z = z):      ## complete required
+        if z > self.y:
+            return z - self.y
+        else:
+            return self.y - z
+class b(a):                         ## complete required
+    def __call__(self, z = a.z):      ## complete required
+        if z > self.y:
+            return z - self.y
+        else:
+            return self.y - z
+
 '''
         Question 4 Solusion
 '''
@@ -68,6 +75,27 @@ class Q4:
                 if lst[j] > lst[j+1]:
                     lst[j], lst[j+1] = lst[j+1], lst[j]
         return lst
+
+'''
+        Question 5 Solusion
+'''
+class Statistics:
+    decorator_counter = 0
+    function_counter  = 0
+    variables_counter = 0
+
+    def __init__(self, func):
+        Statistics.decorator_counter += 1
+
+        self.func = func
+
+    def __call__(self, *args, **kwds):
+        Statistics.function_counter  += 1
+        Statistics.variables_counter += len(args) + len(kwds)
+
+        self.func(*args, **kwds)
+
+        print(f"Decorator Counter: {Statistics.decorator_counter}\nFunction Counter: {Statistics.function_counter}\nVariables Counter: {Statistics.variables_counter}")
 
 '''
         Question 6 Solusion
@@ -107,6 +135,9 @@ class Q6:
             print(f"Sum: {num1 + num2}, Original number: {num1 ** (1/2)}")
 
 if __name__ == "__main__":
+    '''
+        Question 1
+    '''
     print("Question 1:")
     q1 = Q1()
     print(q1.run([[1,5,3], ['a','v',3], ["sss", 'b'],[], [[3,4,5],['a']], [(4,5,6),[4,5,6]]]))      # 2
@@ -122,6 +153,13 @@ if __name__ == "__main__":
     q2.run()
 
     '''
+        Question 3
+    '''
+    print("\nQuestion 3:")
+    print(a(5)(b(6)()))     # 3
+    print(a(6)(b(5)(6)))    # 5
+
+    '''
         Question 4
     '''
     print("\nQuestion 4:")
@@ -129,6 +167,23 @@ if __name__ == "__main__":
     print(q4.sort_list([9,5,4,1,3]))        # [1, 3, 4, 5, 9]
     print(q4.sort_list([7,80,51,20,5]))     # [5, 7, 20, 51, 80]
     print(q4.sort_list([33,99,457,100,10])) # [10, 33, 99, 100, 457]
+
+    '''
+        Question 5
+    '''
+    print("\nQuestion 5:")
+
+    @Statistics
+    def testQ5_1():
+        print("Function Test 1 Question 5")
+
+    @Statistics
+    def testQ5_2(a, b, c, x = 0, y = 0, z = 0):
+        print("Function Test 2 Question 5")
+
+    testQ5_1()
+    testQ5_2(1, 2, 3, x = 2, y = 3, z = 5)
+    testQ5_2(1, 2, 3, x = 2)
 
     '''
         Question 6
@@ -141,6 +196,7 @@ if __name__ == "__main__":
     b3 = q6.b3(c)
     b2 = q6.b2(c)
 
+    # forward into the first yield
     a.__next__()
     c.__next__()
     b3.__next__()
